@@ -44,7 +44,7 @@ Quaternion.rotate(Quaternion, Matrix4f) dupfrom: Quaternion.toMatrix() AND {Matr
 bt those place are totually tooltype method, not mainly content. so hardly or just can't affect mainlly content.
 and those duplicated code's method are been isolation to the bottom, and stay away from mainlly content. and every those duplicated code  unit had a note that pointing the duplication is from where src place. and those impl place is totually warpped, its invisible from outer. so that is very fine!
 
-## Future Plan
+## Future
 
 the lib will keep never had @Deprecated stuff AND as pleasure as possible.
 if necessary, we will make relevant modifications/changes.
