@@ -249,6 +249,23 @@ public class Matrix3f extends Matrix {
         return dest.set(x, y, z);
     }
 
+    public static Matrix3f scale(Vector3f vec, Matrix3f dest) {
+        if (dest == null)
+            dest = new Matrix3f();
+
+        dest.m00 *= vec.x;
+        dest.m01 *= vec.y;
+        dest.m02 *= vec.z;
+        dest.m10 *= vec.x;
+        dest.m11 *= vec.y;
+        dest.m12 *= vec.z;
+        dest.m20 *= vec.x;
+        dest.m21 *= vec.y;
+        dest.m22 *= vec.z;
+
+        return dest;
+    }
+
     /**
      * @param angle unit by radians
      */

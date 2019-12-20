@@ -148,17 +148,25 @@ public class Quaternion extends Vector4f {
     // EXTRA CONVERT FUNCTION
 
     public static Quaternion fromAxisAngle(Vector4f a, Quaternion dest) {
-        return fromAxisAngle(new Vector3f(a.x, a.y, a.z), a.w, dest);
+        return fromAxisAngle(a.x, a.y, a.z, a.w, dest);
     }
 
     public static Quaternion fromAxisAngle(Vector3f axis, float angle, Quaternion dest) {
+        return fromAxisAngle(axis.x, axis.y, axis.z, angle, dest);
+    }
+
+    /**
+     * @param ax,ay,az axis xyz vector
+     */
+    private static Quaternion fromAxisAngle(float ax, float ay, float az, float angle, Quaternion dest) {
         if (dest == null)
             dest = new Quaternion();
-        float s = (float)Math.sin(angle * 0.5f) / axis.length();
+        float l = (float)Math.sqrt(ax*ax + ay*ay + az*az); //axis.length()
+        float s = (float)Math.sin(angle * 0.5f) / l;
         return dest.set(
-                axis.x * s,
-                axis.y * s,
-                axis.z * s,
+                ax * s,
+                ay * s,
+                az * s,
                 (float)Math.cos(angle * 0.5f)
         );
     }
@@ -295,8 +303,8 @@ public class Quaternion extends Vector4f {
     // EXTRA CRAZY DUPLICATION TOOL FUNCTION.
     // (but its fine, this is full duplicate from one src code, and this impl is private wrapped.
     //  but a lots convenient AND non heap alloc! so space effective. (except when null-dest or throw Exception.))
-    
-    
+
+
     // dup from Quaternion::fromAxisAngle AND Quaternion::mul
     // == Quaternion.mul(q, Quaternion.fromAxisAngle(angle, axis, new Quaternion()))
     /**
