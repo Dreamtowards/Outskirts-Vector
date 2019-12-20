@@ -35,7 +35,7 @@ bt sometimes, duplicated-code AND dispersion-code inevitable exists for more hig
 
 In this lib, have 3 class(5 places) had duplicated code: Quaternion, Matrix4f(dup from Matrix3f)
 
-1. Matrix4f.rotate(float, Vector3f, Matrix4f) dupfrom: Matrix3f.rotate(float, Vector3f, Matrix3f)
+1. Matrix4f.rotate() dupfrom: Matrix3f.rotate()
 2. Quaternion.toMatrix(Quaternion, Matrix4f) dupfrom: Quaternion.toMatrix(Quaternion, Matrix3f)
 3. Quaternion.rotate(float, Vector3f, Quaternion) dupfrom: Quaternion.fromAxisAngle() AND Quaternion.mul()
 4. Quaternion.rotate(Quaternion, Matrix3f) dupfrom: Quaternion.toMatrix() AND Matrix3f.mul()
