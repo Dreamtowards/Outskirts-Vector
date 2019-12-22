@@ -40,8 +40,7 @@ No.3 situation are can't be happen in commonly. that just some like divide by ze
 ### Time
 
 we are super care the Clear Design. 
-
-bt sometimes, duplicated-code AND dispersion-code inevitable exists 
+bt sometimes, duplicated-code AND dispersion-code inevitable exists for more higher performance.
 
 ## Future
 
