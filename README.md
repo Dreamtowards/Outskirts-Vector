@@ -4,12 +4,22 @@ vector math library in Outskirts System.
 
 
 
-## Design
+## Desi
 
-### rules
-tooltype-overload-method position:
-if mainly(impl) method are public, then the tooltype overload will closely followed by(below) the mianly method. 
-if mainly method are public, then the tooltype overload will just above the mainly method.
+
+
+
+### Duplicodes
+
+for more higher performance, in this lib, have 3 class(5 places) had duplicated code: Quaternion, Matrix4f(dup from Matrix3f)
+
+1. Matrix4f.rotate() dupfrom: Matrix3f.rotate()
+2. Quaternion.toMatrix(Quaternion, Matrix4f) dupfrom: Quaternion.toMatrix(Quaternion, Matrix3f)
+3. Quaternion.rotate(float, Vector3f, Quaternion) dupfrom: Quaternion.fromAxisAngle() AND Quaternion.mul()
+4. Quaternion.rotate(Quaternion, Matrix3f) dupfrom: Quaternion.toMatrix() AND Matrix3f.mul()
+5. Quaternion.rotate(Quaternion, Matrix4f) dupfrom: Quaternion.toMatrix() AND {Matrix4f.mul3x3()}(wrapped)
+
+every those duplicated code-unit had a note that points the duplication is from where src place. and those impl detail is totually warpped, its invisible from external. and those duplicated code's method are been isolation to the bottom, and stay away from mainlly content. those places are totually tooltype method, not mainly content. so hardly or just can't affect mainlly content.
 
 ## Performance
 
@@ -31,18 +41,7 @@ No.3 situation are can't be happen in commonly. that just some like divide by ze
 
 we are super care the Clear Design. 
 
-bt sometimes, duplicated-code AND dispersion-code inevitable exists for more higher performance.
-
-In this lib, have 3 class(5 places) had duplicated code: Quaternion, Matrix4f(dup from Matrix3f)
-
-1. Matrix4f.rotate() dupfrom: Matrix3f.rotate()
-2. Quaternion.toMatrix(Quaternion, Matrix4f) dupfrom: Quaternion.toMatrix(Quaternion, Matrix3f)
-3. Quaternion.rotate(float, Vector3f, Quaternion) dupfrom: Quaternion.fromAxisAngle() AND Quaternion.mul()
-4. Quaternion.rotate(Quaternion, Matrix3f) dupfrom: Quaternion.toMatrix() AND Matrix3f.mul()
-5. Quaternion.rotate(Quaternion, Matrix4f) dupfrom: Quaternion.toMatrix() AND {Matrix4f.mul3x3()}(wrapped)
-
-bt those place are totually tooltype method, not mainly content. so hardly or just can't affect mainlly content.
-and those duplicated code's method are been isolation to the bottom, and stay away from mainlly content. and every those duplicated code  unit had a note that pointing the duplication is from where src place. and those impl place is totually warpped, its invisible from outer. so that is very fine!
+bt sometimes, duplicated-code AND dispersion-code inevitable exists 
 
 ## Future
 
