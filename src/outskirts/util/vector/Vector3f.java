@@ -188,4 +188,17 @@ public class Vector3f extends Vector {
                 Maths.lerp(t, start.z, end.z)
         );
     }
+
+    /**
+     * @param norm normalized normal vector
+     * @param dest src vector and will be as output reference
+     */
+    private static Vector3f reflect(Vector3f norm, Vector3f dest) {
+        float projLen2 = -Vector3f.dot(norm, dest) * 2f;
+        return dest.set(
+                dest.x + projLen2*norm.x,
+                dest.y + projLen2*norm.y,
+                dest.z + projLen2*norm.z
+        );
+    }
 }

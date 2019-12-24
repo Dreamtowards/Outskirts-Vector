@@ -2,6 +2,8 @@ package outskirts.util.vector;
 
 public class Vector3i extends Vector {
 
+    public static final Vector3i ZERO = new Vector3i(0, 0, 0);
+
     public int x;
     public int y;
     public int z;
@@ -65,7 +67,11 @@ public class Vector3i extends Vector {
 
     @Override
     public int hashCode() {
-        return this.x * 31 ^ this.y ^ this.z;
+        int hash = 0;
+        hash = 31 * hash + this.x;
+        hash = 31 * hash + this.y;
+        hash = 31 * hash + this.z;
+        return hash ^ hash >> 16;
     }
 
     public Vector3i setX(int x) {

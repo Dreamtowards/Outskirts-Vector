@@ -324,10 +324,10 @@ public class Matrix4f extends Matrix {
         if (dest == null)
             dest = new Vector4f();
 
-        float x = left.m00 * right.x + left.m01 * right.y + left.m02 * right.z + left.m03 + right.w;
-        float y = left.m10 * right.x + left.m11 * right.y + left.m12 * right.z + left.m13 + right.w;
-        float z = left.m20 * right.x + left.m21 * right.y + left.m22 * right.z + left.m23 + right.w;
-        float w = left.m30 * right.x + left.m31 * right.y + left.m32 * right.z + left.m33 + right.w;
+        float x = left.m00 * right.x + left.m01 * right.y + left.m02 * right.z + left.m03 * right.w;
+        float y = left.m10 * right.x + left.m11 * right.y + left.m12 * right.z + left.m13 * right.w;
+        float z = left.m20 * right.x + left.m21 * right.y + left.m22 * right.z + left.m23 * right.w;
+        float w = left.m30 * right.x + left.m31 * right.y + left.m32 * right.z + left.m33 * right.w;
 
         return dest.set(x, y, z, w);
     }

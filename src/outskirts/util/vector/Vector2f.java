@@ -128,4 +128,19 @@ public class Vector2f extends Vector {
     public static float angle(Vector2f a, Vector2f b) {
         return Vector.angle(dot(a, b), a, b);
     }
+
+
+    /**
+     * reflect dest around the normal
+     * r = d-(d·n)*2*n
+     * @param norm normalized normal vector
+     * @param dest src vector, and will as output
+     */
+    private static Vector2f reflect(Vector2f norm, Vector2f dest) {
+        float projLen2 = -Vector2f.dot(norm, dest) * 2f;
+        return dest.set(
+                dest.x + projLen2*norm.x,
+                dest.y + projLen2*norm.y
+        );
+    }
 }
