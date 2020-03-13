@@ -44,7 +44,7 @@ public class Quaternion extends Vector4f {
         this.x = -this.x;
         this.y = -this.y;
         this.z = -this.z;
-        //not affect to w
+        // not w
         return this;
     }
 
@@ -123,7 +123,7 @@ public class Quaternion extends Vector4f {
         return this;
     }
 
-    public Quaternion inverse() {
+    public Quaternion invert() { // invert() / inverse() ..?
         float invSq = 1.0F / lengthSquared();
         this.x *= -invSq;
         this.y *= -invSq;
@@ -156,12 +156,13 @@ public class Quaternion extends Vector4f {
     }
 
     /**
+     * q = [sin(½theta)d, cos(½theta)]
      * @param ax,ay,az axis xyz vector
      */
     private static Quaternion fromAxisAngle(float ax, float ay, float az, float angle, Quaternion dest) {
         if (dest == null)
             dest = new Quaternion();
-        float l = (float)Math.sqrt(ax*ax + ay*ay + az*az); //axis.length()
+        float l = (float)Math.sqrt(ax*ax + ay*ay + az*az); // axis.length()
         float s = (float)Math.sin(angle * 0.5f) / l;
         return dest.set(
                 ax * s,
@@ -360,22 +361,14 @@ public class Quaternion extends Vector4f {
         float f22 = 1f - (xx + yy);
 
         // Matrix3f.mul(dest, f0-9)
-        return dest.set(
-                dest.m00 * f00 + dest.m01 * f10 + dest.m02 * f20,
-                dest.m00 * f01 + dest.m01 * f11 + dest.m02 * f21,
-                dest.m00 * f02 + dest.m01 * f12 + dest.m02 * f22,
-                dest.m10 * f00 + dest.m11 * f10 + dest.m12 * f20,
-                dest.m10 * f01 + dest.m11 * f11 + dest.m12 * f21,
-                dest.m10 * f02 + dest.m11 * f12 + dest.m12 * f22,
-                dest.m20 * f00 + dest.m21 * f10 + dest.m22 * f20,
-                dest.m20 * f01 + dest.m21 * f11 + dest.m22 * f21,
-                dest.m20 * f02 + dest.m21 * f12 + dest.m22 * f22
-        );
+        return Matrix3f.mul(dest, f00, f01, f02,
+                                  f10, f11, f12,
+                                  f20, f21, f22, dest);
     }
     
     // jesus crazy duplication...
     // dup from Quaternion::toMatrix AND Matrix4f::rotate's bottom's mul3x3
-    // == Matrix4f.mul3x3(dest * Quaternion.toMatrix(q, new Matrix4f()))
+    // == Matrix4f.mul3x3(dest, Quaternion.toMatrix(q, new Matrix4f()))
     /**
      * integrate dest Matrix4f's 0-2 row/col (only change 9 element)
      */
@@ -404,26 +397,8 @@ public class Quaternion extends Vector4f {
         float f22 = 1f - (xx + yy);
 
         // Matrix4f.mul3x3(dest, f0-9)
-        return dest.set(
-                dest.m00 * f00 + dest.m01 * f10 + dest.m02 * f20,
-                dest.m00 * f01 + dest.m01 * f11 + dest.m02 * f21,
-                dest.m00 * f02 + dest.m01 * f12 + dest.m02 * f22,
-                dest.m03,
-
-                dest.m10 * f00 + dest.m11 * f10 + dest.m12 * f20,
-                dest.m10 * f01 + dest.m11 * f11 + dest.m12 * f21,
-                dest.m10 * f02 + dest.m11 * f12 + dest.m12 * f22,
-                dest.m13,
-
-                dest.m20 * f00 + dest.m21 * f10 + dest.m22 * f20,
-                dest.m20 * f01 + dest.m21 * f11 + dest.m22 * f21,
-                dest.m20 * f02 + dest.m21 * f12 + dest.m22 * f22,
-                dest.m23,
-
-                dest.m30,
-                dest.m31,
-                dest.m32,
-                dest.m33
-        );
+        return Matrix4f.mul3x3(dest, f00, f01, f02,
+                                     f10, f11, f12,
+                                     f20, f21, f22, dest);
     }
 }

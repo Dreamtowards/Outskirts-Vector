@@ -348,15 +348,9 @@ public class Matrix4f extends Matrix {
         if (dest == null)
             dest = new Matrix4f();
 
-        dest.m00 *= vec.x;
-        dest.m01 *= vec.y;
-        dest.m02 *= vec.z;
-        dest.m10 *= vec.x;
-        dest.m11 *= vec.y;
-        dest.m12 *= vec.z;
-        dest.m20 *= vec.x;
-        dest.m21 *= vec.y;
-        dest.m22 *= vec.z;
+        dest.m00 *= vec.x; dest.m01 *= vec.y; dest.m02 *= vec.z;
+        dest.m10 *= vec.x; dest.m11 *= vec.y; dest.m12 *= vec.z;
+        dest.m20 *= vec.x; dest.m21 *= vec.y; dest.m22 *= vec.z;
 
         return dest;
     }
@@ -389,26 +383,37 @@ public class Matrix4f extends Matrix {
         float f21 = yz * oneminusc + xs;
         float f22 = axis.z * axis.z * oneminusc + c;
 
+        return mul3x3(dest, f00, f01, f02,
+                            f10, f11, f12,
+                            f20, f21, f22, dest);
+    }
+
+    public static Matrix4f mul3x3(Matrix4f left, float r00, float r01, float r02,
+                                                 float r10, float r11, float r12,
+                                                 float r20, float r21, float r22, Matrix4f dest) {
+        if (dest == null)
+            dest = new Matrix4f();
+
+        float m00 = left.m00 * r00 + left.m01 * r10 + left.m02 * r20;
+        float m01 = left.m00 * r01 + left.m01 * r11 + left.m02 * r21;
+        float m02 = left.m00 * r02 + left.m01 * r12 + left.m02 * r22;
+        float m10 = left.m10 * r00 + left.m11 * r10 + left.m12 * r20;
+        float m11 = left.m10 * r01 + left.m11 * r11 + left.m12 * r21;
+        float m12 = left.m10 * r02 + left.m11 * r12 + left.m12 * r22;
+        float m20 = left.m20 * r00 + left.m21 * r10 + left.m22 * r20;
+        float m21 = left.m20 * r01 + left.m21 * r11 + left.m22 * r21;
+        float m22 = left.m20 * r02 + left.m21 * r12 + left.m22 * r22;
+
         return dest.set(
-                dest.m00 * f00 + dest.m01 * f10 + dest.m02 * f20,
-                dest.m00 * f01 + dest.m01 * f11 + dest.m02 * f21,
-                dest.m00 * f02 + dest.m01 * f12 + dest.m02 * f22,
-                dest.m03,
-
-                dest.m10 * f00 + dest.m11 * f10 + dest.m12 * f20,
-                dest.m10 * f01 + dest.m11 * f11 + dest.m12 * f21,
-                dest.m10 * f02 + dest.m11 * f12 + dest.m12 * f22,
-                dest.m13,
-
-                dest.m20 * f00 + dest.m21 * f10 + dest.m22 * f20,
-                dest.m20 * f01 + dest.m21 * f11 + dest.m22 * f21,
-                dest.m20 * f02 + dest.m21 * f12 + dest.m22 * f22,
-                dest.m23,
-
-                dest.m30,
-                dest.m31,
-                dest.m32,
-                dest.m33
+                m00,      m01,      m02,      left.m03,
+                m10,      m11,      m12,      left.m13,
+                m20,      m21,      m22,      left.m23,
+                left.m30, left.m31, left.m32, left.m33
         );
+    }
+    public static Matrix4f mul3x3(Matrix4f left, Matrix3f right, Matrix4f dest) {
+        return mul3x3(left, right.m00, right.m01, right.m02,
+                right.m10, right.m11, right.m12,
+                right.m20, right.m21, right.m22, dest);
     }
 }

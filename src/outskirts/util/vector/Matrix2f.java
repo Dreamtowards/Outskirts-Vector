@@ -173,6 +173,19 @@ public class Matrix2f extends Matrix {
         return dest.set(m00, m01, m10, m11);
     }
 
+    public static Matrix2f mul(Matrix2f left, float r00, float r01,
+                                              float r10, float r11, Matrix2f dest) {
+        if (dest == null)
+            dest = new Matrix2f();
+
+        float m00 = left.m00 * r00 + left.m01 * r10;
+        float m01 = left.m00 * r01 + left.m01 * r11;
+        float m10 = left.m10 * r00 + left.m11 * r10;
+        float m11 = left.m10 * r01 + left.m11 * r11;
+
+        return dest.set(m00, m01, m10, m11);
+    }
+
     public static Vector2f transform(Matrix2f left, Vector2f right, Vector2f dest) {
         if (dest == null)
             dest = new Vector2f();
@@ -181,5 +194,19 @@ public class Matrix2f extends Matrix {
         float y = left.m10 * right.x + left.m11 * right.y;
 
         return dest.set(x, y);
+    }
+
+
+    public static Matrix2f rotate(float angle, Matrix2f dest) {
+        if (dest == null)
+            dest = new Matrix2f();
+
+        float c = (float)Math.cos(angle);
+        float s = (float)Math.sin(angle);
+
+        float f00 = c, f01 = -s;
+        float f10 = s, f11 = c;
+
+        return mul(dest, f00, f01, f10, f11, dest);
     }
 }

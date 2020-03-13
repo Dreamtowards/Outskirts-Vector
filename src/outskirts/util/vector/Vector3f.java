@@ -162,19 +162,26 @@ public class Vector3f extends Vector {
 
 
     //ext
-    public Vector3f addScaled(Vector3f factor, float scalar) {
+    public static Vector3f tricross(Vector3f v1, Vector3f v2, Vector3f v3, Vector3f dest) {
+        if (dest == null)
+            dest = new Vector3f();
+        return cross(cross(v1, v2, dest), v3, dest);
+    }
+
+    //ext /order: num then vec because num simple, being a lightweight premise, and focus most in the latter vector
+    public Vector3f addScaled(float scalar, Vector3f factor) {
         this.x += factor.x * scalar;
         this.y += factor.y * scalar;
         this.z += factor.z * scalar;
         return this;
     }
 
-    //should this..? (now for block pos select
-    public static Vector3f unit(Vector3f vec, float unitSize) {
+    //should this..? (now for block pos select, get chunkpos by worldpos.
+    public static Vector3f floor(Vector3f vec, float unitsize) {
         return vec.set(
-                Maths.unit(vec.x, unitSize),
-                Maths.unit(vec.y, unitSize),
-                Maths.unit(vec.z, unitSize)
+                Maths.floor(vec.x, unitsize),
+                Maths.floor(vec.y, unitsize),
+                Maths.floor(vec.z, unitsize)
         );
     }
 
@@ -194,11 +201,11 @@ public class Vector3f extends Vector {
      * @param dest src vector and will be as output reference
      */
     private static Vector3f reflect(Vector3f norm, Vector3f dest) {
-        float projLen2 = -Vector3f.dot(norm, dest) * 2f;
+        float projlen2 = -Vector3f.dot(norm, dest) * 2f;
         return dest.set(
-                dest.x + projLen2*norm.x,
-                dest.y + projLen2*norm.y,
-                dest.z + projLen2*norm.z
+                dest.x + projlen2*norm.x,
+                dest.y + projlen2*norm.y,
+                dest.z + projlen2*norm.z
         );
     }
 }

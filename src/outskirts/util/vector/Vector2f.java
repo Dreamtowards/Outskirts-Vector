@@ -132,15 +132,15 @@ public class Vector2f extends Vector {
 
     /**
      * reflect dest around the normal
-     * r = d-(d·n)*2*n
+     * r = d+ -(d·n)*n*2
      * @param norm normalized normal vector
      * @param dest src vector, and will as output
      */
     private static Vector2f reflect(Vector2f norm, Vector2f dest) {
-        float projLen2 = -Vector2f.dot(norm, dest) * 2f;
+        float projlen2 = -Vector2f.dot(norm, dest) * 2f;
         return dest.set(
-                dest.x + projLen2*norm.x,
-                dest.y + projLen2*norm.y
+                dest.x + projlen2*norm.x,
+                dest.y + projlen2*norm.y
         );
     }
 }
